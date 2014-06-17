@@ -3,6 +3,7 @@
 import dominate # 'pip install dominate' must be run once before this
 from dominate.tags import *
 import re # Only needed because dominate doesn't let us set tab indentation
+import tempfile
 import webbrowser
 
 def generate_html(title, paragraphs):
@@ -24,10 +25,10 @@ if __name__ == '__main__':
     user_input = read_paragraphs()
     html_output = generate_html(user_input['title'], user_input['paragraphs'])
     filename = '.html'
-    with open(filename, 'w') as out:
+    with tempfile.NamedTemporaryFile(mode='w+t', suffix='.html', delete=False) as out:
         # HACK: This is silly, but dominate doesn't provide a way to change the
         # number of spaces used for a tab, but since it gives us exactly half
         # as many as we want, we can double-up on spaces at start of line and
         # get what we want
         out.write(re.sub(r'^(\s*)', r'\1\1', html_output, flags=re.MULTILINE))
-    webbrowser.open(filename)
+        webbrowser.open(out.name)
