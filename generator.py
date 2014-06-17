@@ -31,4 +31,4 @@ if __name__ == '__main__':
         # as many as we want, we can double-up on spaces at start of line and
         # get what we want
         out.write(re.sub(r'^(\s*)', r'\1\1', html_output, flags=re.MULTILINE))
-        webbrowser.open(out.name)
+    webbrowser.open(out.name)
